@@ -45,7 +45,7 @@ jspm_packages/
 typings/
 
 # Compiled Typescript code
-src/*.js
+.js
 
 # Optional npm cache directory
 .npm
