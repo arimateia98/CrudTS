@@ -11,5 +11,8 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^10.12.18"
+  },
+  "dependencies": {
+    "readline-sync": "^1.4.9"
   }
 }
