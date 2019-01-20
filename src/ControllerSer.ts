@@ -1,53 +1,85 @@
 import {Ser} from './Ser';
 const fs = require('fs');
+const R = require('ramda');
+const jsonPath = './files/array.json'
 
 class ControllerSer{
     private serList:Ser[];
+    teste;
     constructor(){
-        this.serList = new Array()
-        let jsonData = require('./array.json')
-        if(jsonData){
-            jsonData.forEach(element => {
-                this.serList.push(new Ser(element.id,element.nome));
-             });
+        this.serList = [];
+        let data;
+        if(fs.existsSync(jsonPath)){
+            data = JSON.parse(fs.readFileSync(jsonPath,'utf-8'));
+            this.addAllSer(data);
+        }else{
+            data = JSON.stringify(this.serList)
+            fs.writeFileSync(jsonPath,data);
         }
     }
+
     public createSer(id:number,nome:string):void{
-        if(!this.serList.some(e => e.getId() == id)){
-                var aux = new Ser(id,nome);
+        if(!this.contains(id)){
+                let aux = new Ser(id,nome);
                 this.serList.push(aux);
             }
     }
 
-    public deleteSer(id:number):void{
-        this.serList = this.serList.filter(e => e.getId() != id);
+    public deleteSer = R.pipe(
+        this.search,
+        this.delete
+    )
+
+    public addAllSer(data){
+        data.forEach(e => {
+            this.serList.push(e.id,e.nome);
+        })
     }
 
     public updateSer(id:number,nome:string):void{
-        this.serList.forEach(element => {
-            if(element.getId() == id){
-                element.setNome(nome);
-            }
-        });
+        let auxSer:Ser = R.find(R.propEq('id', id))(this.serList)
+        if(auxSer != undefined){
+            auxSer.setNome(nome);
+        }
     }
 
     public readAll():Ser[]{
         return this.serList;
     }
 
-    public readOne(id:number):Ser{
-        for(var i = 0;i < this.serList.length; i++){
-            if(this.serList[i].getId() == id){
-                return this.serList[i];
-            }
+    public contains(id:number):Boolean{
+        return this.serList.some(e => e.getId() == id);
+    }
+
+    public readOne = R.pipe(
+        this.search,
+        this.returnSer
+    )
+ 
+    public delete(index:number):void{
+        if(index != - 1 && index < this.serList.length){
+            this.serList.splice(index,1);
+        }
+    }
+    public returnSer(index:number):Ser{
+        if(index != -1 && index < this.serList.length){
+            return this.serList[index];
         }
         return null;
     }
 
     public saveAll():void{
-        var data = JSON.stringify(this.serList,null,2);
-        fs.writeFileSync('array.json',data);
+        let data = JSON.stringify(this.serList,null,2);
+        fs.writeFileSync(jsonPath,data);
+    }
+
+    public search(id:number):number{
+        return R.findIndex(R.propEq('id',id))(this.serList);
+
     }
 }
 
-export {ControllerSer}
+let b = new ControllerSer();
+
+export{ControllerSer};
+

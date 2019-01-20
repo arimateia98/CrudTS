@@ -46,6 +46,7 @@ typings/
 
 # Compiled Typescript code
 .js
+src/*.js
 
 # Optional npm cache directory
 .npm
