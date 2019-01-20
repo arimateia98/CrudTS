@@ -79,7 +79,6 @@ class ControllerSer{
     }
 }
 
-let b = new ControllerSer();
 
 export{ControllerSer};
 
