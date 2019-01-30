@@ -32,7 +32,7 @@ class ControllerSer{
 
     public addAllSer(data){
         data.forEach(e => {
-            this.serList.push(e.id,e.nome);
+            this.serList.push(new Ser(e.id,e.nome));
         })
     }
 
@@ -78,8 +78,6 @@ class ControllerSer{
 
     }
 }
-
-let b = new ControllerSer();
 
 export{ControllerSer};
 

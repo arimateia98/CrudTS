@@ -4,17 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "tsc src/Ser.ts && tsc src/ControllerSer.ts && tsc src/Main.ts && node src/Main.js",
+    "start": "ts-node src/Main.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^10.12.18"
+    "@types/node": "^10.12.18",
+    "ts-node": "^8.0.2"
   },
   "dependencies": {
     "ramda": "^0.26.1",
-    "readline-sync": "^1.4.9"
+    "readline-sync": "^1.4.9",
+    "tsc": "^1.20150623.0",
+    "typescript": "^3.2.4"
   }
 }
